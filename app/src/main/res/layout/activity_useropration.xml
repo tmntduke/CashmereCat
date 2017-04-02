@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/image_back"
+              android:fitsSystemWindows="true"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:background="@drawable/back_selector"
+            android:onClick="onBack"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="35dp"
+                      android:layout_gravity="bottom"
+
+                      android:background="@android:color/transparent"
+                      android:gravity="center"
+                      android:orientation="horizontal">
+            <TextView
+                android:id="@+id/btn_op_login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="登录"
+                android:textColor="@color/write"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/btn_op_register"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="注册"
+                android:textColor="@color/write"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_contain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7.5"
+        android:translationZ="40dp"
+        android:background="@android:color/transparent"
+        >
+    </FrameLayout>
+
+</LinearLayout>

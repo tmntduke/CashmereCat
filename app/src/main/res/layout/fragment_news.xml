@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@color/colorAccent"
+                          android:orientation="horizontal">
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tablayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:background="@color/colorAccent"
+                    android:fitsSystemWindows="true"
+                    app:tabIndicatorColor="#ffffff"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="#77ff66"
+                    app:tabTextColor="#ffffff">
+                </android.support.design.widget.TabLayout>
+
+                <TextView
+                    android:layout_width="0.5dp"
+                    android:layout_height="35dp"
+                android:background="@color/gray2"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"/>
+
+                <ImageView
+                    android:id="@+id/img_person"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/image_person"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rlSearchFrameDelete"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#d7d7d7"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:paddingBottom="8dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="8dp">
+
+                <LinearLayout
+
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_corners2"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/ivSearch"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:src="@drawable/ic_action_search"/>
+
+                    <TextView
+                        android:id="@+id/etSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:hint="搜索：主题/作者"
+                        android:singleLine="true"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/showView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </android.support.v4.view.ViewPager>
+
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>
