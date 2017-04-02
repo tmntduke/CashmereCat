@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +14,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jh.cashmerecat.Activity.MainActivity;
 import com.jh.cashmerecat.R;
 import com.jh.cashmerecat.Utils.ShareOpration;
 import com.jh.cashmerecat.Utils.Utils;
-import com.mob.tools.utils.UIHandler;
 
-import java.util.HashMap;
-
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.ShareSDK;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
@@ -36,18 +29,26 @@ import cn.sharesdk.wechat.friends.Wechat;
 
 /**
  * 用户登录界面
- * Created by E540 on 2016/11/28.
+ * Created by tmnt on 2016/11/28.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends BaseFragment {
 
-    private EditText ed_phone;//登录手机号
-    private EditText ed_password;//登录密码
-    private Button bt_login;//登录按钮
-    private TextView tv_forgetPassword;//忘记密码按钮
-    private ImageView img_wechat;//第三方微信登录按钮
-    private ImageView img_weibo;//第三方微博登录按钮
-    private ImageView img_qq;//第三方QQ登录按钮
-    private ImageView img_up;
+    @Bind(R.id.img_up)
+    ImageView mImgUp;
+    @Bind(R.id.ed_phone)
+    EditText mEdPhone;
+    @Bind(R.id.ed_password)
+    EditText mEdPassword;
+    @Bind(R.id.tv_forgetPassword)
+    TextView mTvForgetPassword;
+    @Bind(R.id.bt_login)
+    Button mBtLogin;
+    @Bind(R.id.img_wechat)
+    ImageView mImgWechat;
+    @Bind(R.id.img_weibo)
+    ImageView mImgWeibo;
+    @Bind(R.id.img_qq)
+    ImageView mImgQq;
 
     private static final int MSG_LOGIN = 2;
 
@@ -63,87 +64,66 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        initView(view);
+        ButterKnife.bind(this, view);
+
         initOperation();
+
 
         return view;
     }
 
 
-    /**
-     * 控件初始化
-     */
+    @Override
+    public void initOperation() {
 
-    public void initView(View view) {
-
-        ed_phone = (EditText) view.findViewById(R.id.ed_phone);
-        ed_password = (EditText) view.findViewById(R.id.ed_password);
-        bt_login = (Button) view.findViewById(R.id.bt_login);
-        tv_forgetPassword = (TextView) view.findViewById(R.id.tv_forgetPassword);
-        img_wechat = (ImageView) view.findViewById(R.id.img_wechat);
-        img_weibo = (ImageView) view.findViewById(R.id.img_weibo);
-        img_qq = (ImageView) view.findViewById(R.id.img_qq);
-        img_up = (ImageView) view.findViewById(R.id.img_up);
-    }
-
-
-    /**
-     * 控件操作
-     */
-    private void initOperation() {
-
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) img_up.getLayoutParams();
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mImgUp.getLayoutParams();
         layoutParams.leftMargin = Utils.getScreenWidth(getActivity()) / 5;
-        img_up.setLayoutParams(layoutParams);
+        mImgUp.setLayoutParams(layoutParams);
 
-        ed_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mEdPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 String phoneText;
                 if (!hasFocus) {
-                    phoneText = ed_phone.getText().toString();
+                    phoneText = mEdPhone.getText().toString();
                     if (phoneText.length() == 0) {
-                        ed_phone.setError("手机号不能为空");
+                        mEdPhone.setError("手机号不能为空");
                     } else if (phoneText.length() < 11) {
-                        ed_phone.setError("请输入正确手机号");
-                    } else {
-
+                        mEdPhone.setError("请输入正确手机号");
                     }
                 }
             }
         });
 
 
-        ed_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mEdPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 String passwordText;
                 if (!hasFocus) {
-                    passwordText = ed_phone.getText().toString();
+                    passwordText = mEdPassword.getText().toString();
                     if (passwordText.length() == 0) {
-                        ed_phone.setError("密码不能为空");
+                        mEdPassword.setError("密码不能为空");
                     } else if (passwordText.length() <= 6 && passwordText.length() >= 15) {
-                        ed_phone.setError("请输入6-15位密码");
-                    } else {
-
+                        mEdPassword.setError("请输入6-15位密码");
                     }
                 }
             }
         });
 
         //登录按钮
-        bt_login.setOnClickListener(new View.OnClickListener() {
+        mBtLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //测试
-                Intent intent=new Intent(getActivity(),MainActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
         });
 
         //忘记密码
-        tv_forgetPassword.setOnClickListener(new View.OnClickListener() {
+        mTvForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent();
@@ -152,7 +132,7 @@ public class LoginFragment extends Fragment {
         });
 
         //微信登录
-        img_wechat.setOnClickListener(new View.OnClickListener() {
+        mImgWechat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShareOpration.otherLogin(Wechat.NAME);
@@ -160,7 +140,7 @@ public class LoginFragment extends Fragment {
         });
 
         //微博登录
-        img_weibo.setOnClickListener(new View.OnClickListener() {
+        mImgWeibo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShareOpration.otherLogin(SinaWeibo.NAME);
@@ -168,13 +148,19 @@ public class LoginFragment extends Fragment {
         });
 
         //QQ登录
-        img_qq.setOnClickListener(new View.OnClickListener() {
+        mImgQq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShareOpration.otherLogin(QQ.NAME);
             }
         });
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
 

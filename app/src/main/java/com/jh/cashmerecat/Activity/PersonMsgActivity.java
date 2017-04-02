@@ -86,7 +86,7 @@ public class PersonMsgActivity extends BaseActivity {
     }
 
     @Override
-    public void initOpration() {
+    public void initOperation() {
 
         //1.用户昵称从服务器取出
         //2.判断用户身份
@@ -147,6 +147,11 @@ public class PersonMsgActivity extends BaseActivity {
                 isMail = true;
             }
         });
+    }
+
+    @Override
+    public void loadData() {
+
     }
 
     @Override

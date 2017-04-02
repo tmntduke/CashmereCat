@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  * <p>
  * Created by tmnt on 2016/12/1.
  */
-public class NewsFragment extends Fragment {
+public class NewsFragment extends BaseFragment {
 
     public static final String CATEGORY_ID = "ARTICL_ID";
     @Bind(R.id.tablayout)
@@ -53,7 +53,7 @@ public class NewsFragment extends Fragment {
                 .inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
 
-        initOpration();
+        initOperation();
 
         return view;
     }
@@ -68,10 +68,14 @@ public class NewsFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * 控件操作
-     */
-    private void initOpration() {
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void initOperation() {
         int size = UserData.getCategory(false).size();
         for (int i = 0; i <= size - 1; i++) {
             mTablayout.addTab(mTablayout.newTab().setText(UserData.getCategory(false).get(i).getCategory_name()));
@@ -83,13 +87,6 @@ public class NewsFragment extends Fragment {
         mTablayout.setupWithViewPager(mShowView);
         mTablayout.setTabsFromPagerAdapter(myAdapter);
         mTablayout.setTabMode(TabLayout.MODE_FIXED);
-
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     //调webservice

@@ -30,13 +30,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        initOpration();
+        initOperation();
     }
 
     /**
      * 对控件的操作
      */
-    public abstract void initOpration();
+    public abstract void initOperation();
+
+    /**
+     * 数据初始化
+     */
+    public abstract void loadData();
 
 
     /**

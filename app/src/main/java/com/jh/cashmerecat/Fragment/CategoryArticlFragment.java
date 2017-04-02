@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * 文章列表
  * Created by tmnt on 2016/12/1.
  */
-public class CategoryArticlFragment extends Fragment {
+public class CategoryArticlFragment extends BaseFragment {
 
     private static String CATEGORY_ID = "CATEGORY_ID";
 
@@ -59,7 +59,7 @@ public class CategoryArticlFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        initOpration();
+        initOperation();
         //autoRefresh();
         return view;
     }
@@ -77,10 +77,9 @@ public class CategoryArticlFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * 控件操作
-     */
-    private void initOpration() {
+
+    @Override
+    public void initOperation() {
         mArtcileAdapter = new CategoryArtcileAdapter(UserData.getArticlList(), getActivity());
         mRvArticle.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRvArticle.setAdapter(mArtcileAdapter);
@@ -131,7 +130,7 @@ public class CategoryArticlFragment extends Fragment {
 
         mSwipeToLoadLayout.setOnLoadMoreListener(() ->
                 mSwipeToLoadLayout.postDelayed(() -> {
-                    Log.i(TAG, "initOpration: start");
+                    Log.i(TAG, "initOperation: start");
                     if (mSwipeToLoadLayout.isLoadingMore()) {
                         mSwipeToLoadLayout.setLoadingMore(false);
                     }
@@ -141,14 +140,12 @@ public class CategoryArticlFragment extends Fragment {
 
         mSwipeToLoadLayout.setOnRefreshListener(() ->
                 mSwipeToLoadLayout.postDelayed(() -> {
-                    Log.i(TAG, "initOpration: start");
+                    Log.i(TAG, "initOperation: start");
                     if (mSwipeToLoadLayout.isRefreshing()) {
                         mSwipeToLoadLayout.setRefreshing(false);
                     }
                 }, 2000)
         );
-
-
     }
 
     @Override
@@ -167,6 +164,7 @@ public class CategoryArticlFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
 
 }
 

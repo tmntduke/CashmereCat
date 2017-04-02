@@ -51,8 +51,13 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void initOpration() {
+    public void initOperation() {
 
+
+    }
+
+    @Override
+    public void loadData() {
 
     }
 

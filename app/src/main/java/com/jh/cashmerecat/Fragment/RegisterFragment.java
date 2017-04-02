@@ -2,7 +2,6 @@ package com.jh.cashmerecat.Fragment;
 
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -23,26 +22,36 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jh.cashmerecat.Activity.PersonMsgActivity;
 import com.jh.cashmerecat.R;
 import com.jh.cashmerecat.Utils.ShareOpration;
 import com.jh.cashmerecat.Utils.Utils;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * 用户注册界面
  * Created by tmnt on 2016/11/28.
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends BaseFragment {
 
-    private EditText mEdPhone; //号码编辑框
-    private EditText mEdPassword; //密码编辑框
-    private EditText mEdValidate;//验证码编辑框
-    private TextView mBtnValidate;//获取验证码按钮
-    private Button mBtnRegister;//注册按钮
-    private ImageView mImgShow;
-    private ImageView img_up;
+    @Bind(R.id.img_up)
+    ImageView mImgUp;
+    @Bind(R.id.ed_phone)
+    EditText mEdPhone;
+    @Bind(R.id.ed_validate)
+    EditText mEdValidate;
+    @Bind(R.id.btn_validate)
+    TextView mBtnValidate;
+    @Bind(R.id.ed_password)
+    EditText mEdPassword;
+    @Bind(R.id.img_show)
+    ImageView mImgShow;
+    @Bind(R.id.btn_register)
+    Button mBtnRegister;
+
 
     private boolean isPhone;//号码判断标志位
     private boolean isValidate;//验证码判断标志位
@@ -66,83 +75,13 @@ public class RegisterFragment extends Fragment {
         View view = LayoutInflater.from(getActivity().getApplicationContext())
                 .inflate(R.layout.fragment_register, container, false);
 
-        initView(view);
         checkUser();
-        initOpration();
+        initOperation();
 
+        ButterKnife.bind(this, view);
         return view;
     }
 
-    /**
-     * 初始化控件
-     *
-     * @param view
-     */
-    private void initView(View view) {
-        mEdPhone = (EditText) view.findViewById(R.id.ed_phone);
-        mEdPassword = (EditText) view.findViewById(R.id.ed_password);
-        mEdValidate = (EditText) view.findViewById(R.id.ed_validate);
-        mBtnValidate = (TextView) view.findViewById(R.id.btn_validate);
-        mBtnRegister = (Button) view.findViewById(R.id.btn_register);
-        mImgShow = (ImageView) view.findViewById(R.id.img_show);
-        img_up = (ImageView) view.findViewById(R.id.img_up);
-    }
-
-    /**
-     * 对控件操作
-     */
-    private void initOpration() {
-
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) img_up.getLayoutParams();
-        layoutParams.leftMargin = Utils.getScreenWidth(getActivity()) / 7 * 5;
-        img_up.setLayoutParams(layoutParams);
-
-        mBtnValidate.setOnClickListener(v -> {
-            //判断是否注册
-            //1.获取验证码
-            if (isPhone) {
-                ShareOpration.SMSValidate("86", mEdPhone.getText().toString());
-            }
-
-            //2.进行倒计时
-            timer = new CountDownTimer(60000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    Message msg = Message.obtain();
-                    msg.what = 0001;
-                    msg.obj = millisUntilFinished;
-                    new CountDownHandler().sendMessage(msg);
-                }
-
-                @Override
-                public void onFinish() {
-                    Message msg = Message.obtain();
-                    msg.what = 0002;
-                    new CountDownHandler().sendMessage(msg);
-                }
-            };
-            timer.start();
-            //Toast.makeText(getActivity(),"start",Toast.LENGTH_SHORT).show();
-
-        });
-
-
-        mImgShow.setOnTouchListener((v, event) -> {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    mEdPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    break;
-                case MotionEvent.ACTION_UP:
-                    mEdPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    break;
-            }
-            mEdPassword.setSelection(mEdPassword.getText().length());
-            return true;
-
-        });
-
-
-    }
 
     /**
      * 验证用户信息
@@ -248,6 +187,63 @@ public class RegisterFragment extends Fragment {
 
         RegisterFragment fragment = new RegisterFragment();
         return fragment;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void initOperation() {
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mImgUp.getLayoutParams();
+        layoutParams.leftMargin = Utils.getScreenWidth(getActivity()) / 7 * 5;
+        mImgUp.setLayoutParams(layoutParams);
+
+        mBtnValidate.setOnClickListener(v -> {
+            //判断是否注册
+            //1.获取验证码
+            if (isPhone) {
+                ShareOpration.SMSValidate("86", mEdPhone.getText().toString());
+            }
+
+            //2.进行倒计时
+            timer = new CountDownTimer(60000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Message msg = Message.obtain();
+                    msg.what = 0001;
+                    msg.obj = millisUntilFinished;
+                    new CountDownHandler().sendMessage(msg);
+                }
+
+                @Override
+                public void onFinish() {
+                    Message msg = Message.obtain();
+                    msg.what = 0002;
+                    new CountDownHandler().sendMessage(msg);
+                }
+            };
+            timer.start();
+            //Toast.makeText(getActivity(),"start",Toast.LENGTH_SHORT).show();
+
+        });
+
+
+        mImgShow.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mEdPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    break;
+                case MotionEvent.ACTION_UP:
+                    mEdPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    break;
+            }
+            mEdPassword.setSelection(mEdPassword.getText().length());
+            return true;
+
+        });
     }
 
     /**

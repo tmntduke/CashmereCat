@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -21,18 +20,36 @@ import android.widget.TextView;
 import com.jh.cashmerecat.R;
 import com.jh.cashmerecat.Utils.ShareOpration;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
- * Created by E540 on 2016/12/1.
+ * 忘记密码
+ * Created by tmnt on 2016/12/1.
  */
 public class ForgetPasswordActivity extends BaseActivity {
-    private EditText mEdPhone; //号码编辑框
-    private EditText mEdPassword; //密码编辑框
-    private EditText mEdAgainPassword;//再次输入密码编辑框
-    private EditText mEdValidate;//验证码编辑框
-    private TextView mBtnValidate;//获取验证码按钮
-    private Button mBtnChange;//完成按钮
-    private ImageView mImgShow;
-    private ImageView mImgAgainShow;
+    @Bind(R.id.ed_phone)
+    EditText mEdPhone;
+    @Bind(R.id.text3)
+    TextView mText3;
+    @Bind(R.id.ed_validate)
+    EditText mEdValidate;
+    @Bind(R.id.btn_validate)
+    TextView mBtnValidate;
+    @Bind(R.id.text1)
+    TextView mText1;
+    @Bind(R.id.ed_password)
+    EditText mEdPassword;
+    @Bind(R.id.img_show)
+    ImageView mImgShow;
+    @Bind(R.id.text2)
+    TextView mText2;
+    @Bind(R.id.ed_againpassword)
+    EditText mEdAgainpassword;
+    @Bind(R.id.img_againshow)
+    ImageView mImgAgainshow;
+    @Bind(R.id.btn_change)
+    Button mBtnChange;
 
     private boolean isPhone;//号码判断标志位
     private boolean isValidate;//验证码判断标志位
@@ -47,29 +64,14 @@ public class ForgetPasswordActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgetpassword);
-        initView();
+        ButterKnife.bind(this);
+
         checkUser();
-        initOpration();
+        initOperation();
     }
-
-    /**
-     * 初始化控件
-     *
-     */
-    private void initView() {
-        mEdPhone = (EditText) findViewById(R.id.ed_phone);
-        mEdPassword = (EditText) findViewById(R.id.ed_password);
-        mEdAgainPassword =(EditText)findViewById(R.id.ed_againpassword);
-        mEdValidate = (EditText)findViewById(R.id.ed_validate);
-        mBtnValidate = (TextView)findViewById(R.id.btn_validate);
-        mBtnChange = (Button)findViewById(R.id.btn_change);
-        mImgShow = (ImageView)findViewById(R.id.img_show);
-        mImgAgainShow = (ImageView)findViewById(R.id.img_againshow);
-    }
-
 
     @Override
-    public void initOpration() {
+    public void initOperation() {
         mBtnValidate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,25 +120,30 @@ public class ForgetPasswordActivity extends BaseActivity {
                 return true;
             }
         });
-        mImgAgainShow.setOnTouchListener(new View.OnTouchListener() {
+        mImgAgainshow.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
-                    case  MotionEvent.ACTION_DOWN:
-                        mEdAgainPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mEdAgainpassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                         break;
                     case MotionEvent.ACTION_UP:
-                        mEdAgainPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        mEdAgainpassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         break;
                 }
-                mEdAgainPassword.setSelection(mEdAgainPassword.getText().length());
+                mEdAgainpassword.setSelection(mEdAgainpassword.getText().length());
                 return true;
             }
         });
 
     }
 
-       /**
+    @Override
+    public void loadData() {
+
+    }
+
+    /**
      * 验证用户信息
      */
     private void checkUser() {
@@ -190,16 +197,16 @@ public class ForgetPasswordActivity extends BaseActivity {
             }
         });
 
-        mEdAgainPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mEdAgainpassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                String againText = mEdAgainPassword.getText().toString();
-                if(againText.isEmpty()){
+                String againText = mEdAgainpassword.getText().toString();
+                if (againText.isEmpty()) {
                     mEdPassword.setError("请先输入新密码");
-                }else if(!againText.equals(mEdPassword.getText().toString())){
-                    mEdAgainPassword.setError("与上面新密码不符");
-                }else{
-                    isAgainPassword =true ;
+                } else if (!againText.equals(mEdPassword.getText().toString())) {
+                    mEdAgainpassword.setError("与上面新密码不符");
+                } else {
+                    isAgainPassword = true;
                 }
             }
         });
@@ -226,6 +233,7 @@ public class ForgetPasswordActivity extends BaseActivity {
             }
         });
     }
+
     /**
      * 显示按钮上的倒计时
      */

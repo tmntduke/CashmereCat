@@ -77,7 +77,7 @@ public class PublicArticleActivity extends BaseActivity {
     }
 
     @Override
-    public void initOpration() {
+    public void initOperation() {
 
         SpannableString spannableString = new SpannableString("请输入标题(30字以内)");
         RelativeSizeSpan sizeSpan = new RelativeSizeSpan(0.5f);
@@ -109,6 +109,11 @@ public class PublicArticleActivity extends BaseActivity {
             ImageUtils.toGallery(REQUES_CODE, PublicArticleActivity.this);
 
         });
+
+    }
+
+    @Override
+    public void loadData() {
 
     }
 

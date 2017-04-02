@@ -40,11 +40,11 @@ public class UserOprationActivity extends BaseActivity {
         manager = getSupportFragmentManager();
         manager.beginTransaction().add(R.id.fl_contain, new LoginFragment()).commit();
 
-        initOpration();
+        initOperation();
     }
 
     @Override
-    public void initOpration() {
+    public void initOperation() {
 
         mBtnOpLogin.setOnClickListener(v ->
                 manager.beginTransaction().replace(R.id.fl_contain, new LoginFragment()).commit()
@@ -53,6 +53,11 @@ public class UserOprationActivity extends BaseActivity {
         mBtnOpRegister.setOnClickListener(v ->
                 manager.beginTransaction().replace(R.id.fl_contain, RegisterFragment.getInstance()).commit()
         );
+
+    }
+
+    @Override
+    public void loadData() {
 
     }
 
